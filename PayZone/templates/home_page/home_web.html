@@ -1,0 +1,239 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayZone: Payroll & HR Solutions</title>
+
+    <!-- Load Bootstrap CSS from CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Load Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png" sizes="16x16">
+
+    <style>
+        /* Custom CSS for styling */
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "images/officebg.jpg" %}');
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-color: rgba(255, 255, 255, 0.7);
+            background-attachment: fixed;
+        }
+
+        /* Set text color to black for all elements */
+        * {
+            color: #000 !important;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: rgba(51, 51, 51, 0.1);
+        }
+
+        /* Larger logo */
+        .navbar-brand img {
+            width: 120px;
+            height: auto;
+        }
+
+        /* Navigation links styling */
+        .navbar-nav a {
+            font-weight: bold;
+            margin-left: 15px;
+        }
+
+        /* Styling for buttons */
+        .btn {
+            font-weight: bold;
+        }
+
+        /* Primary button styling */
+        .btn-primary {
+            background-color: #007bff;
+            color: #ffffff;
+            transition: opacity 0.1s;
+        }
+
+        /* Reduce opacity only on hover */
+        .btn-primary:hover {
+            opacity: 0.8;
+        }
+
+        /* Footer styling */
+        .footer {
+            background-color: rgba(51, 51, 51, 0.1);
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        /* Content section styling */
+        .content {
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1100px; /* Added max-width */
+            margin: 0 auto; /* Center content horizontally */
+        }
+
+        /* Smaller image placeholder */
+        .image-placeholder {
+            width: 80px;
+            height: auto;
+            margin: 20px auto;
+        }
+
+        /* Style for the company name and slogan text */
+        .company-name {
+            font-size: 35px; /* Set a uniform font size for all content */
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .slogan {
+            font-size: 20px; /* Set a uniform font size for all content */
+            text-align: center;
+        }
+
+        /* Style for the description text */
+        .description {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 20px; /* Set a uniform font size for all content */
+        }
+
+        /* Style for the logo, company name, and slogan in one line */
+        .logo-line {
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-line img {
+            margin-right: 10px;
+            width: 400px; /* Increased logo size */
+            height: auto;
+        }
+
+        /* Style for the Welcome To heading */
+        .headers {
+            font-size: 35px;
+            font-weight: bolder;
+            margin-bottom: 70px; /* Add margin to create space after Welcome To */
+        }
+
+        /* Style for the blue text */
+        .blue-text {
+            color: #0BB5FF;
+        }
+
+        /* Mobile-friendly menu and login/signup buttons synchronization */
+        @media (max-width: 768px) {
+            .navbar-toggler:not(.collapsed) + .navbar-collapse .navbar-nav.ml-auto {
+                display: block;
+            }
+            .navbar-nav.ml-auto .btn {
+                display: inline-block; /* Change to inline-block to keep buttons visible */
+            }
+            .navbar-nav.ml-auto .btn + .btn {
+                margin-left: 10px; /* Add margin-left to create spacing between buttons */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="padding-top: 20px; padding-bottom: 20px; background-color: rgba(51, 51, 51, 0);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
+
+            <!-- Navbar Toggler for Responsive Design -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Don't Remove For Future Use -->
+{#                {% if user.is_authenticated %}#}
+{#                    <a class="btn btn-primary" href="{% url 'PayZone:dashboard' %}" style="background-color: lightgrey; border: 2px solid lightgrey;">Dashboard</a>#}
+{#                {% endif %}#}
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about-us">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact-us">Contact Us</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="{% url 'login' %}">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="{% url 'register' %}">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Us Section -->
+    <section id="about-us" class="content">
+        <h2 class="headers">Welcome To</h2>
+        <div class="logo-line">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+            <div>
+                <p class="company-name">PayZone Philippines, Inc.</p>
+                <p class="slogan">Where <span class="blue-text">efficiency</span> meets <span class="blue-text">excellence</span>.</p>
+            </div>
+        </div>
+        <div class="description">
+            <p>We are your trusted partner in managing employee salaries and payroll efficiently. We provide seamless solutions for businesses of all sizes, helping you streamline your payroll processes and ensure your employees are paid accurately and on time.</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="content">
+        <h2 class="headers">Features</h2>
+        <div class="description">
+        <p>Our platform offers a range of features designed to simplify payroll management, including automated salary calculations, tax reporting, and direct deposit options. With Payroll, you can focus on growing your business while we take care of your payroll needs.</p>
+        </div>
+    </section>
+
+    <div style="text-align: center;">
+        <img src="{% static "images/features.png" %}" style="margin-center: 0px;" width="400" height="400">
+        <p style="color: #ffffff; text-align: center; margin-center: 0px; text-decoration: none; font-size: 50px; font-weight: lighter;
+           font-family: 'MinecraftiaRegular', sans-serif;">
+           <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/asd" type="text/css"/><br>
+           PayZone Features
+        </p>
+    </div>
+
+    <!-- Contact Us Section -->
+    <section id="contact-us" class="content">
+        <h2 class="headers">Contact Us</h2>
+        <div class="description">
+            <p>Have questions or need assistance? Our dedicated support team is here to help. Contact us via email at <a href="mailto:payzoneph@gmail.com" style="color: #0bb5ff; text-decoration: underline;">payzoneph@gmail.com</a>. We look forward to serving you!</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" style="padding-top: 20px; padding-bottom: 20px;">
+        <p>&copy; 2023 PayZone Philippines, Inc. All rights reserved.</p>
+    </footer>
+
+    <!-- Load Bootstrap JavaScript from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

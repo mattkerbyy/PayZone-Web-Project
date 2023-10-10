@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayZone - Sign Up</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png" sizes="16x16">
+
+    <style>
+        /* Custom CSS for styling */
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-image: url('{% static 'images/bg.jpg' %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .signup-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 30px 20px;
+            width: 800px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .signup-form {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .signup-image {
+            flex: 1;
+            background-image: url('{% static "images/loginbox.png" %}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .signup-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Style for "Sign Up for PayZone" text */
+        .signup-title {
+            color: #324edc;
+            font-weight: bolder;
+        }
+
+        /* Style for password toggle icon */
+        .password-toggle {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-box">
+        <div class="signup-form">
+            <h2 class="signup-title text-center">Sign Up for PayZone</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter your first name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter your last name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="password1" placeholder="Enter your password" required>
+                        <span class="input-group-text password-toggle" onclick="togglePassword(document.getElementById('password'), this.querySelector('i'))">
+                            <i class="bi bi-eye-slash"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password_confirmation" class="form-label">Password Confirmation</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password_confirmation" name="password2" placeholder="Confirm your password" required>
+                        <span class="input-group-text password-toggle" onclick="toggleConfirmPassword(document.getElementById('password_confirmation'), this.querySelector('i'))">
+                            <i class="bi bi-eye-slash"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="signup-button">
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                    <p class="text-center">Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+                </div>
+            </form>
+        </div>
+        <div class="signup-image"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        // JavaScript function to toggle password visibility
+        function togglePassword(inputElement, iconElement) {
+            var passwordField = inputElement;
+            var passwordIcon = iconElement;
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                passwordIcon.classList.remove("bi-eye-slash");
+                passwordIcon.classList.add("bi-eye");
+            } else {
+                passwordField.type = "password";
+                passwordIcon.classList.remove("bi-eye");
+                passwordIcon.classList.add("bi-eye-slash");
+            }
+        }
+
+        // JavaScript function to toggle password confirmation visibility
+        function toggleConfirmPassword(confirmInputId, confirmIconElement) {
+            var confirmPasswordField = confirmInputId;
+            var confirmPasswordIcon = confirmIconElement;
+
+            if (confirmPasswordField.type === "password") {
+                confirmPasswordField.type = "text";
+                confirmPasswordIcon.classList.remove("bi-eye-slash");
+                confirmPasswordIcon.classList.add("bi-eye");
+            } else {
+                confirmPasswordField.type = "password";
+                confirmPasswordIcon.classList.remove("bi-eye");
+                confirmPasswordIcon.classList.add("bi-eye-slash");
+            }
+        }
+    </script>
+</body>
+</html>
