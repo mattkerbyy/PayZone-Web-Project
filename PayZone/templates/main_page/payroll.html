@@ -271,11 +271,12 @@
         <div class="error-notice">
             <div class="oaerror danger">
                 <strong>Error!</strong> You must be signed-in to view the content.
-                <br><br> You'll get automatically redirected back from where you came from after a few seconds.
+                <br><br> You will be automatically redirected to the home page within a few seconds.
             </div>
         </div>
     {% endif %}
 
+<!-- Prevents redirection when logged it -Clark -->
     <script>
         // Add click event handler for logout link
         document.getElementById('logout-link').addEventListener('click', function(event) {
@@ -283,11 +284,40 @@
             $('#logoutModal').modal('show');
         });
     </script>
-<!-- Prevents User from going back logging out -->
+<!-- Prevents User from going back after logging out -->
     <script>
-      function preventBack(){window.history.forward();}
-      setTimeout("preventBack()", 5000); // Redirect after 5 seconds (5000 milliseconds), allowing the user to see the message of suffering.
-      window.onunload=function(){null};
+        const  isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %}
+        if (!isAuthenticated){
+            //Timer that allows you to see the message of suffering and brings you back to the homepage after seeing it (eme lalako ini Kerby, Clark comment ini)
+            let timer;
+            function startTimer() {timer = setTimeout(redirectToHomepage, 5000);}
+            //Redirects you to homepage (eme lalako ini Kerby, Clark comment ini)
+            function redirectToHomepage() {window.location.href = '/';}
+            function preventBack() {window.history.forward();}
+            //Prevents Single-Page Application, meaning of this is, code only applies to a single-page (eme lalako ini Kerby, Clark comment ini)
+            startTimer();
+            window.addEventListener('beforeunload', function (e) {clearTimeout(timer);});
+        }
     </script>
+<!-- Prevents user from seeing the page's content after logout -Clark -->
+<style>
+    body.logged-out {
+        display: none;
+    }
+</style>
+<!-- The <style> will hide the page content's to prevent the user from having a glimpse -Clark -->
+<script>
+(function () {
+    const isLoggedOut = true;
+    if (isLoggedOut) {
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                document.body.classList.add('logged-out');
+                window.location.reload();
+            }
+        };
+    }
+})();
+</script>
 </body>
 </html>

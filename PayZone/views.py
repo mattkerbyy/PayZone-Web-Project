@@ -6,9 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import logout
-from django.shortcuts import redirect
 from .models import Department
 from .forms import DepartmentForm
+from .models import Employee
+from .forms import EmployeeForm
+
 
 def home(request):
     return render(request, 'home_page/home_web.html')
@@ -43,23 +45,16 @@ def user_login(request):
                 return redirect('PayZone:dashboard')  # Redirect to the dashboard or any other desired page
             else:
                 messages.error(request, 'Invalid login credentials. Please try again.')
-        return render(request, 'user_auth/login.html')
+        return render(request, 'user_auth/login.html', {'show_error_message': request.method == 'POST'})
 
-
-def dashboard(request):
-    return render(request, 'main_page/home_dashboard.html')
-
-def employees(request):
-    return render(request, 'main_page/employees.html')
-def payroll(request):
-    return render(request, 'main_page/payroll.html')
-
-def reports(request):
-    return render(request, 'main_page/reports.html')
 
 def custom_logout(request):
     logout(request)
     return redirect('home')
+
+
+def dashboard(request):
+    return render(request, 'main_page/home_dashboard.html')
 
 
 def departments(request):
@@ -109,8 +104,50 @@ def delete_department(request, department_id):
 
     return redirect('PayZone:department_list')
 
-# def logout(request):
-#     # Logout the user
-#     auth_logout(request)
-#     # Redirect to the home page or any other desired page after logout
-#     return redirect('PayZone:logout')
+
+def employees(request):
+    employees = Employee.objects.all()
+    return render(request, 'main_page/employees.html', {'employees': employees, 'employee_form': EmployeeForm()})
+
+
+def employee_list(request):
+    employees = Employee.objects.all()  # Fetch all Employee objects
+    return render(request, 'main_page/employees.html', {'employees': employees})
+
+
+# View for creating a new employee
+def create_employee(request):
+    if request.method == 'POST':
+        employee_form = EmployeeForm(request.POST)
+        if employee_form.is_valid():
+            employee_form.save()
+            return redirect('PayZone:employee_list')
+
+    return redirect('PayZone:employee_list')
+
+
+def update_employee(request, employee_id):
+    employee = Employee.objects.get(id=employee_id)
+    if request.method == 'POST':
+        employee_form = EmployeeForm(request.POST, instance=employee)
+        if employee_form.is_valid():
+            employee_form.save()
+            return redirect('PayZone:employee_list')
+
+    return redirect('PayZone:employee_list')
+
+
+def delete_employee(request, employee_id):
+    employee = Employee.objects.get(id=employee_id)
+    if request.method == 'POST':
+        employee.delete()
+
+    return redirect('PayZone:employee_list')
+
+
+def payroll(request):
+    return render(request, 'main_page/payroll.html')
+
+
+def reports(request):
+    return render(request, 'main_page/reports.html')

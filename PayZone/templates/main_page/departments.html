@@ -77,16 +77,24 @@
             text-align: center;
         }
 
-        /* Content section styling */
+        /* Center error message */
+        .error-notice {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh; /* Center vertically */
+        }
+
+        /* Center the content horizontally and vertically */
         .content {
             padding: 40px;
-            text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            max-width: 1100px; /* Added max-width */
-            margin: 0 auto; /* Center content horizontally */
+            max-width: 1100px;
+            margin: 0 auto;
+            height: 100vh; /* Center vertically */
         }
 
         /* Smaller image placeholder */
@@ -98,14 +106,14 @@
 
         /* Style for the company name and slogan text */
         .company-name {
-            font-size: 35px; /* Set a uniform font size for all content */
+            font-size: 35px;
             font-weight: bolder;
             text-align: center;
         }
 
         .slogan {
-            font-size: 20px; /* Set a uniform font size for all content */
-            text-align: center;
+            font-size: 20px;
+            text-align: center.
         }
 
         /* Style for the description text */
@@ -152,14 +160,6 @@
             }
         }
 
-        /* Center error message */
-        .error-notice {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 50vh;
-        }
-
         /* Improved error message styling */
         .oaerror {
             width: 60%;
@@ -182,6 +182,11 @@
         /* Style for the login button */
         .login-button {
             margin-top: 20px;
+        }
+
+        /* Center the table */
+        .table-responsive {
+            margin: 0 auto;
         }
     </style>
 </head>
@@ -219,7 +224,7 @@
                         <a class="btn btn-primary" href="#" id="logout-link" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
                     </li>
                     {% else %}
-                    <li class="nav-item">
+                    <li class "nav-item">
                         <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
                     </li>
                     {% endif %}
@@ -262,51 +267,45 @@
             <div class="col-md-9">
                 <!-- Main content area -->
                 <h1 class="text-center" style="font-weight: bold;">List of Departments</h1>
-
-                <!-- Display form for creating a new department -->
-                <div class="mb-3">
-                    <form method="post" action="{% url 'PayZone:create_department' %}">
-                        {% csrf_token %}
-                        {{ department_form.as_p }}
-                        <button type="submit" class="btn btn-success">Create</button>
-                    </form>
-                </div>
-
                 <div class="table-responsive text-center">
-                    <div class="mx-auto" style="max-width: 70%;">
-                        <table class="table table-bordered table-sm">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Department Name</th>
-                                    <th>Description</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for department in departments %}
-                                <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ department.name }}</td>
-                                    <td>{{ department.description }}</td>
-                                    <td>
-                                        <!-- Display form for updating a department -->
-                                        <form method="post" action="{% url 'PayZone:update_department' department.id %}" style="display: inline;">
-                                            {% csrf_token %}
-                                            {{ department_form.as_p }}
-                                            <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                                        </form>
-                                        <!-- Form for deleting a department -->
-                                        <form method="post" action="{% url 'PayZone:delete_department' department.id %}" style="display: inline;">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table table-bordered table-sm" style="margin: 0 auto;">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Department Name</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for department in departments %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ department.name }}</td>
+                                <td>{{ department.description }}</td>
+                                <td>
+                                    <!-- Display form for creating a new department -->
+                                    <form method="post" action="{% url 'PayZone:create_department' %}">
+                                    {% csrf_token %}
+                                    {{ department_form.as_p }}
+                                    <button type="submit" class="btn btn-success">Create</button>
+                                    </form>
+                                    <!-- Display form for updating a department -->
+                                    <form method="post" action="{% url 'PayZone:update_department' department.id %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        {{ department_form.as_p }}
+                                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                    </form>
+                                    <!-- Form for deleting a department -->
+                                    <form method="post" action="{% url 'PayZone:delete_department' department.id %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
                 <!-- Add your content here -->
             </div>
@@ -316,23 +315,44 @@
         <div class="error-notice">
             <div class="oaerror danger">
                 <strong>Error!</strong> You must be signed-in to view the content.
-                <br><br> You'll get automatically redirected back from where you came from after a few seconds.
+                <br><br> You will be automatically redirected to the home page within a few seconds.
             </div>
         </div>
     {% endif %}
 
     <script>
-        // Add click event handler for logout link
-        document.getElementById('logout-link').addEventListener('click', function(event) {
-            // Show the logout confirmation modal
-            $('#logoutModal').modal('show');
-        });
+        const  isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %}
+        if (!isAuthenticated){
+            //Timer that allows you to see the message of suffering and brings you back to the homepage after seeing it (eme lalako ini Kerby, Clark comment ini)
+            let timer;
+            function startTimer() {timer = setTimeout(redirectToHomepage, 5000);}
+            //Redirects you to homepage (eme lalako ini Kerby, Clark comment ini)
+            function redirectToHomepage() {window.location.href = '/';}
+            function preventBack() {window.history.forward();}
+            //Prevents Single-Page Application, meaning of this is, code only applies to a single-page (eme lalako ini Kerby, Clark comment ini)
+            startTimer();
+            window.addEventListener('beforeunload', function (e) {clearTimeout(timer);});
+        }
     </script>
-<!-- Prevents User from going back logging out -->
-    <script>
-      function preventBack(){window.history.forward();}
-      setTimeout("preventBack()", 5000); // Redirect after 5 seconds (5000 milliseconds), allowing the user to see the message of suffering.
-      window.onunload=function(){null};
-    </script>
+<!-- Prevents user from seeing the page's content after logout -Clark -->
+<style>
+    body.logged-out {
+        display: none;
+    }
+</style>
+<!-- The <style> will hide the page content's to prevent the user from having a glimpse -Clark -->
+<script>
+(function () {
+    const isLoggedOut = true;
+    if (isLoggedOut) {
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                document.body.classList.add('logged-out');
+                window.location.reload();
+            }
+        };
+    }
+})();
+</script>
 </body>
 </html>

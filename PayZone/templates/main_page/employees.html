@@ -260,15 +260,68 @@
         <div class="container-fluid mt-4">
             <div class="row">
                 <div class="col-md-3">
-                    <!-- Sidebar -->
                     <div class="bg-light sidebar">
                         <!-- Sidebar content goes here -->
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <!-- Main content area -->
-                    <!-- Add our dashboard widgets and content here -->
+                    <h1 class="text-center" style="font-weight: bold;">List of Employees</h1>
+                    <div class="table-responsive text-center">
+                        <table class="table table-bordered table-sm" style="margin: 0 auto;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Gender</th>
+                                    <th>Date of Birth</th>
+                                    <th>Department</th>
+                                    <th>Hire Date</th>
+                                    <th>Salary</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    <th>Address</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for employee in employees %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ employee.first_name }}</td>
+                                        <td>{{ employee.last_name }}</td>
+                                        <td>{{ employee.gender }}</td>
+                                        <td>{{ employee.date_of_birth }}</td>
+                                        <td>{{ employee.department }}</td>
+                                        <td>{{ employee.hire_date }}</td>
+                                        <td>{{ employee.salary }}</td>
+                                        <td>{{ employee.email }}</td>
+                                        <td>{{ employee.phone_number }}</td>
+                                        <td>{{ employee.address }}</td>
+                                        <td>
+                                            <!-- Update Employee Form -->
+                                            <form method="post" action="{% url 'PayZone:update_employee' employee.id %}" style="display: inline;">
+                                                {% csrf_token %}
+                                                {{ employee_form.as_p }}
+                                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                            </form>
+                                            <!-- Delete Employee Form -->
+                                            <form method="post" action="{% url 'PayZone:delete_employee' employee.id %}" style="display: inline;">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
+                    <!-- Create Employee Form -->
+                    <form method="post" action="{% url 'PayZone:create_employee' %}">
+                        {% csrf_token %}
+                        {{ employee_form.as_p }}
+                        <button type="submit" class="btn btn-success">Create Employee</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -276,7 +329,7 @@
         <div class="error-notice">
             <div class="oaerror danger">
                 <strong>Error!</strong> You must be signed-in to view the content.
-                <br><br> You'll get automatically redirected back from where you came from after a few seconds.
+                <br><br> You will be automatically redirected to the home page within a few seconds.
             </div>
         </div>
     {% endif %}
@@ -288,11 +341,40 @@
             $('#logoutModal').modal('show');
         });
     </script>
-<!-- Prevents User from going back logging out -->
+
     <script>
-      function preventBack(){window.history.forward();}
-      setTimeout("preventBack()", 5000); // Redirect after 5 seconds (5000 milliseconds), allowing the user to see the message of suffering.
-      window.onunload=function(){null};
+        const  isAuthenticated = {% if user.is_authenticated %}true{% else %}false{% endif %}
+        if (!isAuthenticated){
+            //Timer that allows you to see the message of suffering and brings you back to the homepage after seeing it (eme lalako ini Kerby, Clark comment ini)
+            let timer;
+            function startTimer() {timer = setTimeout(redirectToHomepage, 5000);}
+            //Redirects you to homepage (eme lalako ini Kerby, Clark comment ini)
+            function redirectToHomepage() {window.location.href = '/';}
+            function preventBack() {window.history.forward();}
+            //Prevents Single-Page Application, meaning of this is, code only applies to a single-page (eme lalako ini Kerby, Clark comment ini)
+            startTimer();
+            window.addEventListener('beforeunload', function (e) {clearTimeout(timer);});
+        }
     </script>
+<!-- Prevents user from seeing the page's content after logout -Clark -->
+<style>
+    body.logged-out {
+        display: none;
+    }
+</style>
+<!-- The <style> will hide the page content's to prevent the user from having a glimpse -Clark -->
+<script>
+(function () {
+    const isLoggedOut = true;
+    if (isLoggedOut) {
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                document.body.classList.add('logged-out');
+                window.location.reload();
+            }
+        };
+    }
+})();
+</script>
 </body>
 </html>
