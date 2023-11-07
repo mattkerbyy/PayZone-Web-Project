@@ -176,9 +176,99 @@
         .login-button {
             margin-top: 20px;
         }
+
+        .white-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            opacity: 1;
+            transition: opacity 1s ease-out 4s; /* Initial delay of 4s before fading */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .white-background img {
+            width: 100%; /* Set the desired width */
+            height: 100%;
+        }
+
+        body.delay-background {
+            overflow: visible;
+        }
+
+        .widget-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .widget-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .widget-content {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .progress-container {
+            margin-top: 20px;
+        }
     </style>
+
 </head>
-<body style="font-family: 'Raleway', sans-serif;">
+<div style="font-family: 'Raleway', sans-serif;">
+    <!-- Epic Loading Estetik -->
+    <script>
+        function showAnimation() {
+            const hasVisitedBefore = sessionStorage.getItem('hasVisitedBefore');
+
+            if (!hasVisitedBefore) {
+                const whiteBackground = document.createElement('div');
+                whiteBackground.classList.add('white-background');
+                document.body.appendChild(whiteBackground);
+                const animatedImage = new Image();
+                animatedImage.src = '{% static 'images/logoin.gif' %}'; // Replace with your animated image path
+                animatedImage.alt = 'Animated Logo';
+                animatedImage.style.width = '350px'; // Set your desired width
+                animatedImage.style.height = '234px'; // Maintain aspect ratio
+                whiteBackground.appendChild(animatedImage);
+                whiteBackground.style.display = '#ffffff';
+                whiteBackground.style.zIndex = '9999';
+
+                setTimeout(function() {
+                    whiteBackground.style.opacity = '0';
+                    whiteBackground.style.transition = 'opacity 1s ease-out'; // Adding a smooth transition
+                    document.body.classList.add('delay-background');
+
+                    setTimeout(function() {
+                        whiteBackground.style.display = 'none';
+                        whiteBackground.style.zIndex = '-1';
+                        document.body.classList.remove('delay-background');
+                    }, 1000); // Additional 1 second after fade
+                }, 5000); // Fading after 5 seconds
+
+                sessionStorage.setItem('hasVisitedBefore', true); // Set the flag for the current session
+            }
+        }
+
+        window.addEventListener('load', function() {
+            showAnimation();
+        });
+
+        function logoutFunction() {
+            // Implement your logout logic here
+        }
+    </script>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light" style="padding-top: 20px; padding-bottom: 20px; background-color: rgba(51, 51, 51, 0);">
         <div class="container-fluid">
@@ -254,83 +344,54 @@
                 </div>
                 <div class="col-md-9">
                     <!-- Main content area -->
-                     <div style="text-align: left; margin-left: 0px;">
-                        <div class="dashboard-container">
-        <h1>PayZone Dashboard</h1>
-        <div class="divider"></div>
-        <p class="subtitle">Overview</p>
-        <p>None.</p>
 
-        <h2>DashBoard Overview:</h2>
-                            <p>None.</p>
+                    <h1 class="text-center" style="font-weight: bold;">PayZone Dashboard</h1>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="widget-container">
+                                    <div class="widget-title">Total Employees</div>
+                                    <div class="widget-content">100</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="widget-container">
+                                    <div class="widget-title">Total Salary</div>
+                                    <div class="widget-content">Php10,000,000</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="widget-container">
+                                    <div class="widget-title">Average Salary</div>
+                                    <div class="widget-content">Php250,000</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="widget-container">
+                                    <div class="widget-title">Employee Productivity</div>
+                                    <div class="widget-content">80%</div>
+                                    <div class="progress-container">
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="widget-container">
+                                    <div class="widget-title">Net Revenue</div>
+                                    <div class="widget-content">Php5,000,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-        </ol>
-
-        <!-- Tableau Embed Placeholder -->
-        <div class='tableauPlaceholder' id='viz1691724218229' style='position: relative'>
-            <noscript><a href='#'><img alt='HR Dashboard' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HR&#47;HRDashboard_16917241661500&#47;HRDashboard&#47;1_rss.png' style='border: none' /></a></noscript>
-            <object class='tableauViz'  style='display:none;'>
-                <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
-                <param name='embed_code_version' value='3' />
-                <param name='site_root' value='' />
-                <param name='name' value='HRDashboard_16917241661500&#47;HRDashboard' />
-                <param name='tabs' value='no' />
-                <param name='toolbar' value='yes' />
-                <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;HR&#47;HRDashboard_16917241661500&#47;HRDashboard&#47;1.png' />
-                <param name='animate_transition' value='yes' />
-                <param name='display_static_image' value='yes' />
-                <param name='display_spinner' value='yes' />
-                <param name='display_overlay' value='yes' />
-                <param name='display_count' value='yes' />
-                <param name='language' value='en-GB' />
-            </object>
-        </div>
-        <script type='text/javascript'>
-            var divElement = document.getElementById('viz1691724218229');
-            var vizElement = divElement.getElementsByTagName('object')[0];
-            if (divElement.offsetWidth > 800) {
-                vizElement.style.width='1200px';
-                vizElement.style.height='827px';
-            } else if (divElement.offsetWidth > 500) {
-                vizElement.style.width='1200px';
-                vizElement.style.height='827px';
-            } else {
-                vizElement.style.width='100%';
-                vizElement.style.height='2177px';
-            }
-            var scriptElement = document.createElement('script');
-            scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-            vizElement.parentNode.insertBefore(scriptElement, vizElement);
-        </script>
-
-        <!-- Project Description -->
-        <h1 class="subtitle"><strong>Payzones Dashboard Description</strong></h1>
-        <p>Welcome to our Payzone Dashboard.</p>
-
-        <!-- Dashboard Content -->
-        <h3 class="subtitle">Dashboard Content</h3>
-        <p>None.</p>
-        <ul>
-            <li>None.</li>
-            <li>None.</li>
-            <li>None.</li>
-            <li>None.</li>
-            <li>None.</li>
-            <li>None.</li>
-            <li>None.</li>
-        </ul>
+                    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
-        <!-- Data Analysis Toolkit -->
-        <h3 class="subtitle">Toolkit of Data Analysis Tools for The Dashboard</h3>
-        <ul>
-            <li>Efficiently cleaned and prepared datasets using tools like Excel.</li>
-            <li>Applied Python for in-depth data analysis, correlation, and other analyses.</li>
-        </ul>
-    </div>
-
-
-                        <!-- Add our dashboard widgets and content here -->
+                     <!-- Add our dashboard widgets and content here -->
                     </div>
                 </div>
             </div>

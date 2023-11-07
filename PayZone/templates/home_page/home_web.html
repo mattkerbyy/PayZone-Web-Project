@@ -125,7 +125,7 @@
         .headers {
             font-size: 35px;
             font-weight: bolder;
-            margin-bottom: 70px; /* Add margin to create space after Welcome To */
+            margin-bottom: 35px; /* Add margin to create space after Welcome To */
         }
 
         /* Style for the blue text */
@@ -190,17 +190,178 @@
 
     <!-- About Us Section -->
     <section id="about-us" class="content">
-        <h2 class="headers">Welcome To</h2>
+        <h2 class="headers" id="text_welcome">Welcome to,</h2>
+        <script>
+            const header = document.getElementById('text_welcome');
+            let opacity = 0; // Initial opacity
+
+            function fadeInEffect() {
+                const interval = setInterval(function() {
+                    if (opacity < 10) {
+                        opacity += 0.0090; // Adjust the increment for speed
+                        header.style.opacity = opacity;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 20); // Adjust the interval for smoother animation
+            }
+
+            // Start the fade-in effect
+            fadeInEffect();
+        </script>
         <div class="logo-line">
-            <img src="{% static 'images/logo.png' %}" alt="Logo">
+            <img id="animation" style="visibility: hidden;" src="{% static 'images/inanimation.gif' %}" alt="Animated Logo">
+            <script>
+                const image = document.getElementById('animation');
+                const inAnimationPath = "{% static 'images/inanimation.gif' %}";
+                const outAnimationPath = "{% static 'images/outanimation.gif' %}";
+                const initialDelay = 2000; // Dramatic delay after the page loads -Clark
+                //To prevent image switching flickering -Clark
+                const inAnimation = new Image();
+                inAnimation.src = inAnimationPath;
+                const outAnimation = new Image();
+                outAnimation.src = outAnimationPath;
+                function switchAnimation() {
+                    // Function to switch between out and in animations
+                    function toggleAnimations() {
+                        if (image.src.includes(inAnimationPath)) {
+                            image.src = outAnimationPath;
+                            setTimeout(toggleAnimations, 8000); //Out animation delay -Clark
+                        } else {
+                            image.src = inAnimationPath;
+                            setTimeout(toggleAnimations, 13000); //In animation delay -Clark
+                        }
+                        //setTimeout(toggleAnimations, 8000); //Universal Delay -Clark
+                    }
+                    image.style.visibility = 'visible'; // Show the image before starting animation
+                    toggleAnimations(); // Start the toggle animation loop
+                }
+                //This will load the image after the initialDelay -Clark
+                setTimeout(() => {
+                    image.src = outAnimationPath; // Set initial image to in animation
+                    switchAnimation(); // Start the animation after setting the initial image
+                }, initialDelay);
+            </script>
+            <style>
+            #animation {
+              width: 650px;
+              height: 260px;
+            }
+            </style>
+            <style>
+                .company-name {
+                    opacity: 0;
+                    position: relative;
+                    left: -50%; /* Initial position off-screen */
+                    animation: slideAndFade 8s ease forwards; /* Animation for slide and fade */
+                }
+                .blue-text {
+                    color: #0BB5FF !important;
+                    display: inline-block;
+                }
+                .black-text {
+                    color: black !important;
+                    display: inline-block;
+                }
+                @keyframes slideAndFade {
+                    0% {
+                        opacity: 1;
+                        left: -5000%;
+                    }
+                    100% {
+                        opacity: 1;
+                        left: 0;
+                    }
+                }
+            </style>
             <div>
-                <p class="company-name">PayZone Philippines, Inc.</p>
-                <p class="slogan">Where <span class="blue-text">efficiency</span> meets <span class="blue-text">excellence</span>.</p>
+                <p class="company-name" id="text_payzone_ph">PayZone Philippines, Inc.</p>
+                <p class="slogan" id="text_slogan">
+                    Where <span class="blue-text">efficiency</span> meets <span class="blue-text">excellence</span>.
+                </p>
             </div>
+            <!-- PayZone Philippines, Inc. -->
+            <script>
+                const header = document.getElementById('text_payzone_ph');
+
+                function slideInAndFadeIn() {
+                    header.style.opacity = 1; /* Setting opacity to trigger fade-in */
+                    header.style.transform = "translateX(0)"; /* Move element to its original position */
+                }
+
+                // Wait a bit before starting the animation
+                setTimeout(slideInAndFadeIn, 5000); // Adjust the delay for a smoother effect
+            </script>
+            <!-- Where efficiency meets excellence. -->
+            <script>
+                const sentence = document.getElementById('text_slogan');
+                const sentenceText = "Where efficiency meets excellence.";
+                sentence.textContent = ''; // Clear the content
+
+                let i = 0;
+                function typeWriter() {
+                    if (i < sentenceText.length) {
+                        const char = sentenceText.charAt(i);
+                        if (char === ' ') {
+                            sentence.innerHTML += '<span class="blue-text">&nbsp;</span>'; // Add a space with the class
+                        } else {
+                            if (i >= 5 && i <= 15) //This is to color the word efficiency -Clark
+                            {
+                                sentence.innerHTML += `<span class="blue-text">${char}</span>`;
+                            } else if (i >= 22 && i <=32)  //This is to color the word excellence -Clark
+                            {
+                                sentence.innerHTML += `<span class="blue-text">${char}</span>`;
+                            } else  //This is to color everything in black -Clark
+                            {
+                                sentence.innerHTML += `<span class="black-text">${char}</span>`;
+                            }
+                        }
+                        i++;
+                        setTimeout(typeWriter, 75); //Larger value = slower -Clark
+                    }
+                }
+
+                typeWriter();
+            </script>
         </div>
+        <style>
+            /* Initially hide the text */
+            .descriptionText {
+                opacity: 0;
+                transition: opacity 0.5s ease;
+            }
+            .descriptionText.show {
+                opacity: 1;
+            }
+        </style>
+
         <div class="description">
-            <p>We are your trusted partner in managing employee salaries and payroll efficiently. We provide seamless solutions for businesses of all sizes, helping you streamline your payroll processes and ensure your employees are paid accurately and on time.</p>
+            <p id="descriptionText" class="descriptionText">We are your trusted partner in managing employee salaries and payroll efficiently. We provide seamless solutions for businesses of all sizes, helping you streamline your payroll processes and ensure your employees are paid accurately and on time.</p>
         </div>
+
+        <script>
+            const textElement = document.getElementById('descriptionText');
+
+            const isInViewport = (element) => {
+                const bounding = element.getBoundingClientRect();
+                return (
+                    bounding.top >= 0 &&
+                    bounding.left >= 0 &&
+                    bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            };
+
+            const handleScroll = () => {
+                if (isInViewport(textElement)) {
+                    textElement.classList.add('show');
+                } else {
+                    textElement.classList.remove('show');
+                }
+            };
+
+            window.addEventListener('scroll', handleScroll);
+        </script>
     </section>
 
     <!-- Features Section -->
