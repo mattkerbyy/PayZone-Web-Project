@@ -3,39 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testing</title>
-
-        <style>
-
-        .error-notice{
-          margin:5px; /* Make sure to keep some distance from all sides */
+    <title>Login Button</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; /* Set a background color for the body */
         }
 
-        .oaerror{
-          width:80%;
-          background-color: #ffffff;
-          padding:20px;
-          border:1px solid #eee;
-          border-left-width:5px;
-          border-radius: 3px;
-          margin:10px auto;
-          font-family: 'Raleway', sans-serif;
-          font-size: 16px;
+        .login-button {
+            padding: 12px 24px;
+            background-color: #fff; /* White box */
+            color: #3498db; /* Blue text */
+            border: 2px solid #3498db; /* Blue border */
+            border-radius: 15px; /* Rounded edges */
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced box shadow */
+            transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease; /* Add transitions */
         }
 
-        .danger{
-          border-left-color: #d9534f; /* Left side border color */
-          background-color: rgba(217, 83, 79, 0.1); /*Same color as the left border with reduced alpha to 0.1*/
-
-        </style>
+        .login-button:hover {
+            background-color: #3498db; /* Blue box on hover */
+            color: #fff; /* White text on hover */
+            transform: scale(1.05); /* Add a slight scale effect on hover */
+        }
+    </style>
 </head>
-<body style="font-family: 'Raleway', sans-serif;">
+<body>
 
-    <div class="error-notice">
-        <div class="oaerror danger">
-          <strong>Error</strong>- You need to remember your username/password. Please try again.
-        </div>
-
+<button class="login-button" style="font-weight: bold;">Log In</button>
 
 </body>
 </html>
+
+
+

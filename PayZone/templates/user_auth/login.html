@@ -22,7 +22,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;  /* Use min-height instead of height */
             margin: 0;
         }
 
@@ -40,7 +40,8 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             padding: 30px 20px;
-            width: 800px;
+            max-width: 800px;  /* Use max-width instead of width */
+            width: 100%;  /* Ensure the box takes the full width */
             display: flex;
             flex-direction: row;
         }
@@ -53,11 +54,25 @@
         .login-image {
             flex: 1;
             background-image: url('{% static 'images/loginbox.png' %}');
-            background-size: cover;
+            background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             border-top-right-radius: 8px;
             border-bottom-right-radius: 8px;
+            min-height: 300px;
+        }
+
+        /* Add media query for smaller screens or adjust as needed */
+        @media (max-width: 768px) {
+            .login-box {
+                flex-direction: column;
+                max-width: none;
+            }
+
+            .login-image {
+                border-top-right-radius: 0;
+                border-bottom-left-radius: 8px;
+            }
         }
 
         .login-button {
@@ -78,7 +93,7 @@
             cursor: pointer;
         }
 
-                .loader {
+        .loader {
             position: fixed;
             top: 0;
             left: 0;
@@ -94,7 +109,7 @@
         .spinner-border {
             width: 3rem;
             height: 3rem;
-            border: 0.5rem solid #007bff;
+            border: 0.5rem solid #0BB5FF;
             border-right: 0.5rem solid transparent;
             border-radius: 50%;
             animation: spin 0.5s linear infinite;
@@ -146,7 +161,6 @@
                 </div>
                 <div class="login-button">
                     <button type="submit" class="btn btn-primary">Log In</button>
-                    <p class="text-center">Don't have an account? <a href="{% url 'register' %}">Sign Up</a></p>
                 </div>
             </form>
         </div>

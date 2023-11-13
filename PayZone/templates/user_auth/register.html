@@ -22,7 +22,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;  /* Use min-height instead of height */
             margin: 0;
         }
 
@@ -30,15 +30,16 @@
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            padding: 30px 20px;
-            width: 800px;
+            padding: 0px 30px;
+            max-width: 800px;  /* Use max-width instead of width */
+            width: 100%;
             display: flex;
             flex-direction: row;
         }
 
         .signup-form {
             flex: 1;
-            padding: 20px;
+            padding: 10px;
         }
 
         .signup-image {
@@ -49,17 +50,30 @@
             background-position: center;
             border-top-right-radius: 8px;
             border-bottom-right-radius: 8px;
+            min-height: 300px;
+        }
+
+        @media (max-width: 768px) {
+            .signup-box {
+                flex-direction: column;
+                max-width: none;
+            }
+
+            .signup-image {
+                border-top-right-radius: 0;
+                border-bottom-left-radius: 8px;
+            }
         }
 
         .signup-button {
-            display: flex;
-            flex-direction: column;
+            text-align: center;
             align-items: center;
             justify-content: center;
         }
 
         /* Style for "Sign Up for PayZone" text */
         .signup-title {
+            margin-top: 10px;
             color: #324edc;
             font-weight: bolder;
         }
@@ -69,7 +83,7 @@
             cursor: pointer;
         }
 
-                .loader {
+        .loader {
             position: fixed;
             top: 0;
             left: 0;
@@ -85,7 +99,7 @@
         .spinner-border {
             width: 3rem;
             height: 3rem;
-            border: 0.5rem solid #007bff;
+            border: 0.5rem solid #0BB5FF;
             border-right: 0.5rem solid transparent;
             border-radius: 50%;
             animation: spin 0.5s linear infinite;
@@ -109,6 +123,26 @@
     <div class="signup-box">
         <div class="signup-form">
             <h2 class="signup-title text-center">Sign Up for PayZone</h2>
+            <!-- Display success message if it exists -->
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+
+                <!-- JavaScript to hide messages after a delay -->
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var messagesElement = document.querySelector(".messages");
+                        if (messagesElement) {
+                            setTimeout(function() {
+                                messagesElement.style.display = "none";
+                            }, 5000);  // Adjust the delay to 5000 milliseconds (5 seconds)
+                        }
+                    });
+                </script>
+            {% endif %}
             <form method="post">
                 {% csrf_token %}
                 <div class="mb-3">
@@ -147,7 +181,6 @@
                 </div>
                 <div class="signup-button">
                     <button type="submit" class="btn btn-primary">Sign Up</button>
-                    <p class="text-center">Already have an account? <a href="{% url 'login' %}">Log In</a></p>
                 </div>
             </form>
         </div>

@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features Card Hover</title>
+    <style>
+    html,
+    body {
+      background: #efefef;
+      height: 100%;
+      padding: 50px;
+      font-family: sans-serif;
+      font-weight: 100;
+      text-align: center;
+    }
+
+    h3 {
+      font-family: inherit;
+      font-weight: 100;
+      font-size: 50px;
+      color: #c1c1c1;
+    }
+
+    .card {
+      height: 460px;
+      width: 350px;
+      background: #ffffff;
+      margin: 20px;
+      display: inline-block;
+      box-shadow: 1px 1px 22px rgba(157, 184, 209, 0.19);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.15s linear;
+    }
+
+    .card > img {
+      height: 150px;
+      width: 100%;
+      border-radius: 10px 10px 0 0;
+      padding: 35px 0 5px 0;
+    }
+
+    .card > h1 {
+      font-size: 22px;
+      color: #5c5c5c;
+      padding: 15px 0 5px 0;
+      font-weight: 100;
+    }
+
+    .card > p {
+      font-size: 13px;
+      color: #cdcdcd;
+      padding: 0 40px;
+      line-height: 20px;
+    }
+
+    .card > a {
+      padding: 13px;
+      font-weight: normal;
+      width: 260px;
+      color: #2687f1;
+      border: 2px solid #2687f1;
+      border-radius: 7px;
+      margin: auto;
+      margin-top: 35px;
+      display: block;
+      transition: 0.2s linear;
+    }
+
+    .card:hover {
+      transform: scale(1.015);
+      transition: 0.15s linear;
+      box-shadow: 1px 1px 22px rgba(157, 184, 209, 0.5);
+    }
+
+    .card:hover > a {
+      padding: 13px;
+      width: 260px;
+      color: #fff;
+      background: #2687f1;
+      border-radius: 7px;
+      margin: auto;
+      margin-top: 35px;
+      transition: 0.2s linear;
+    }
+    </style>
+</head>
+<body>
+
+    <h3>PayZone Features</h3>
+
+    <div class="card">
+      <img src="{% static 'images/highlysecuresystem.png' %}" style="padding: 60px 0 5px 0;height: 125px;"  alt="Highly Secure System"/>
+      <h1>
+        Highly Secure System
+      </h1>
+      <p>
+        PayZone ensures the utmost protection of sensitive financial data and employee information through its highly secured system, employing state-of-the-art encryption, user authentication, anti-bypass, and continuous monitoring to guarantee a robust and safe payroll processing experience.
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="{% static 'images/powerfulfeatures.png' %}" style="padding: 60px 0 5px 0;height: 125px;"  alt="Powerful Features"/>
+      <h1>
+        Powerful Features
+      </h1>
+      <p>
+        Experience the efficiency of PayZone's powerful features, including a seamlessly synced dashboard for real-time insights, comprehensive lists of departments and employees for easy management, streamlined payroll processing, and detailed reports to provide comprehensive analytics for informed decision-making.
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="{% static 'images/userfriendlyinterface.png' %}" style="padding: 60px 0 5px 0;height: 125px;"  alt="User Friendly Interface"/>
+      <h1>
+        User Friendly Interface
+      </h1>
+      <p>
+        PayZone stands out with its user-friendly interface, ensuring a smooth and intuitive experience for users at every level. With a simple and navigable design, managing payroll, departments, and employee information has never been more accessible and user-friendly.
+      </p>
+    </div>
+
+</body>
+</html>
+
+
+

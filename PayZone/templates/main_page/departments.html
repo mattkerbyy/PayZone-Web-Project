@@ -18,7 +18,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png" sizes="16x16">
 
-    <style>
+    <!-- Your custom script for the Log-Out button -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const logoutButton = document.getElementById('logout-link');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function() {
+                    $('#logoutModal').modal('show'); // Show the logout confirmation modal
+                });
+            }
+        });
+    </script>
+
+        <style>
         /* Custom CSS for styling */
         body {
             font-family: 'Raleway', sans-serif;
@@ -77,24 +89,16 @@
             text-align: center;
         }
 
-        /* Center error message */
-        .error-notice {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 50vh; /* Center vertically */
-        }
-
-        /* Center the content horizontally and vertically */
+        /* Content section styling */
         .content {
             padding: 40px;
+            text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            max-width: 1100px;
-            margin: 0 auto;
-            height: 100vh; /* Center vertically */
+            max-width: 1100px; /* Added max-width */
+            margin: 0 auto; /* Center content horizontally */
         }
 
         /* Smaller image placeholder */
@@ -106,14 +110,14 @@
 
         /* Style for the company name and slogan text */
         .company-name {
-            font-size: 35px;
+            font-size: 35px; /* Set a uniform font size for all content */
             font-weight: bolder;
             text-align: center;
         }
 
         .slogan {
-            font-size: 20px;
-            text-align: center.
+            font-size: 20px; /* Set a uniform font size for all content */
+            text-align: center;
         }
 
         /* Style for the description text */
@@ -159,9 +163,14 @@
                 margin-left: 10px; /* Add margin-left to create spacing between buttons */
             }
         }
-            .navbar-toggler-icon {
-                background-color: #0BB5FF; /* Change to the desired blue color */
-            }
+
+        /* Center error message */
+        .error-notice {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+        }
 
         /* Improved error message styling */
         .oaerror {
@@ -187,11 +196,6 @@
             margin-top: 20px;
         }
 
-        /* Center the table */
-        .table-responsive {
-            margin: 0 auto;
-        }
-
                 .loader {
             position: fixed;
             top: 0;
@@ -211,20 +215,22 @@
             border: 0.5rem solid #0BB5FF;
             border-right: 0.5rem solid transparent;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.5s linear infinite;
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+
     </style>
 </head>
 <body style="font-family: 'Raleway', sans-serif;">
 
     <!-- Loader -->
     <div class="loader" id="loader">
-        <div class="spinner-border text-primary" role="status" style="animation-duration: 1s;">
+        <div class="spinner-border text-primary" role="status" style="animation-duration: 0.5s;">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
@@ -233,40 +239,61 @@
     <nav class="navbar navbar-expand-lg navbar-light" style="padding-top: 20px; padding-bottom: 20px; background-color: rgba(51, 51, 51, 0);">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
+                <!-- Navbar Toggler for Responsive Design -->
+                <style>
+                    .navbar-toggler:focus {
+                        box-shadow: 0 0 0px 2px lightskyblue;
+                    }
 
-            <!-- Navbar Toggler for Responsive Design -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                    .hamburger {
+                        width: 7vw; /* Size remains same and ensure it stays wherever I want it to stay. */
+                        height: auto;
+                        object-fit: contain;
+                    }
+
+                    @media (max-width: 768px) {
+                        .hamburger {
+                            width: 60px; /* Adjust the size for smaller screens */
+                        }
+                    }
+                </style>
+                <button class="navbar-toggler custom-toggler ms-auto" id="hamburgerButton" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <img src="{% static 'images/hamburger.gif' %}" alt="Hamburger" class="hamburger">
+                </button>
 
             <!-- Navbar Links -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/dashboard">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/departments">Departments</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/employees">Employees</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/payroll">Payroll</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/reports">Reports</a>
-                    </li>
-                    {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="btn btn-primary" href="#" id="logout-link" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
-                    </li>
-                    {% endif %}
-                </ul>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                        <!-- Don't Remove For Future Use -->
+{#                            <li class="nav-item active">#}
+{#                                <a class="btn btn-primary" href="{% url 'home' %}" style="background-color: lightgrey; border:2px solid lightgrey;">Home</a>#}
+{#                            </li>#}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/dashboard">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/departments" style="color: #0BB5FF !important;">Departments</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/employees">Employees</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/payroll">Payroll</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/reports">Reports</a>
+                            </li>
+                            {% if request.user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a class="btn btn-primary" href="#" id="logout-link">Logout</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                </div>
             </div>
         </div>
     </nav>
@@ -296,55 +323,126 @@
     {% if request.user.is_authenticated %}
     <div class="container-fluid mt-4">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <!-- Sidebar -->
                 <div class="bg-light sidebar">
                     <!-- Sidebar content goes here -->
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <!-- Main content area -->
-                <h1 class="text-center" style="font-weight: bold;">List of Departments</h1>
-                <div class="table-responsive text-center">
-                    <table class="table table-bordered table-sm" style="margin: 0 auto;">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Department Name</th>
-                                <th>Description</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for department in departments %}
-                            <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ department.name }}</td>
-                                <td>{{ department.description }}</td>
-                                <td>
-                                    <!-- Display form for creating a new department -->
-                                    <form method="post" action="{% url 'PayZone:create_department' %}">
-                                    {% csrf_token %}
-                                    {{ department_form.as_p }}
-                                    <button type="submit" class="btn btn-success">Create</button>
-                                    </form>
-                                    <!-- Display form for updating a department -->
-                                    <form method="post" action="{% url 'PayZone:update_department' department.id %}" style="display: inline;">
-                                        {% csrf_token %}
-                                        {{ department_form.as_p }}
-                                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                                    </form>
-                                    <!-- Form for deleting a department -->
-                                    <form method="post" action="{% url 'PayZone:delete_department' department.id %}" style="display: inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- List of Departments header -->
+                        <div class="col-6">
+                            <h1 class="text-center" style="font-weight: bold;">List of Departments</h1>
+                        </div>
+
+                        <!-- Create Department button -->
+                        <div class="col-6">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Create Department</button>
+                            <!-- Modal for creating a new department -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Create Department</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="{% url 'PayZone:create_department' %}">
+                                                {% csrf_token %}
+                                                {{ form.as_p }}
+                                                <button type="submit" class="btn btn-success">Create</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered table-sm" style="margin: auto;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Department Name</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for department in departments %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ department.name }}</td>
+                                    <td>{{ department.description }}</td>
+                                    <td>
+
+                                        <!-- Display button to open modal for updating a department -->
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#updateModal{{ department.id }}">Update</button>
+
+                                        <!-- Modal for updating a department -->
+                                        <div class="modal fade" id="updateModal{{ department.id }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel{{ department.id }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="updateModalLabel{{ department.id }}">Update Department</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="post" action="{% url 'PayZone:update_department' department.id %}">
+                                                            {% csrf_token %}
+                                                            <!-- Input field for updating department name -->
+                                                            <div class="form-group">
+                                                                <label for="id_name">Department Name:</label>
+                                                                <input type="text" class="form-control" id="id_name" name="name" value="{{ department.name }}">
+                                                            </div>
+                                                            <!-- Input field for updating department description -->
+                                                            <div class="form-group">
+                                                                <label for="id_description">Description:</label>
+                                                                <textarea class="form-control" id="id_description" name="description">{{ department.description }}</textarea>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-primary">Update</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Form for deleting a department -->
+                                        <form id="deleteForm{{ department.id }}" method="post" action="{% url 'PayZone:delete_department' department.id %}" style="display: inline; text-align: center;">
+                                            {% csrf_token %}
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ department.id }})">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <link rel="style" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+                        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+                        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+                        <script>
+                            function confirmDelete(departmentId) {
+                                var result = confirm("Are you sure you want to delete this department?");
+                                if (result) {
+                                    // If the user clicks 'OK', submit the form
+                                    document.getElementById('deleteForm' + departmentId).submit();
+                                }
+                            }
+                        </script>
+                    </div>
                 </div>
+
                 <!-- Add your content here -->
             </div>
         </div>
@@ -397,15 +495,15 @@
     <!-- Add script to hide loader when content is loaded -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Delay for 1 second (or your desired duration) before hiding the loader
+            // Delay for 0.5 second (or your desired duration) before hiding the loader
             setTimeout(function() {
                 // Hide loader after the delay
                 document.getElementById('loader').style.display = 'none';
-            }, 1000); // 1000 milliseconds = 1 second
+            }, 500); // 500 milliseconds = 0.5 second
 
             // Optionally, you can set the animation duration dynamically as well
             const spinner = document.querySelector('.spinner-border');
-            spinner.style.animationDuration = '1s'; // Adjust the duration as needed
+            spinner.style.animationDuration = '0.5s'; // Adjust the duration as needed
         });
     </script>
 </body>

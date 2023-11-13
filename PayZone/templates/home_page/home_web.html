@@ -177,9 +177,105 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        html,
+        body {
+          text-align: center;
+        }
+
+        .card {
+          height: 460px;
+          width: 350px;
+          background: #ffffff;
+          margin: 20px;
+          display: inline-block;
+          box-shadow: 1px 1px 22px rgba(157, 184, 209, 0.19);
+          border-radius: 10px;
+          cursor: pointer;
+          transition: 0.15s linear;
+        }
+
+        /* Update the style for card images */
+        .card > img {
+            height: 200px; /* Set a fixed height */
+            width: 100%; /* Take the full width of the container */
+            object-fit: cover; /* Maintain aspect ratio and cover the entire container */
+            border-radius: 10px 10px 0 0;
+            padding: 20px 0 5px 0; /* Adjust padding */
+        }
+
+        .card > h1 {
+          font-size: 22px;
+          color: #5c5c5c;
+          padding: 15px 0 5px 0;
+          font-weight: bolder;
+        }
+
+        .card > p {
+          font-size: 13px;
+          color: #cdcdcd;
+          padding: 0 40px;
+          line-height: 20px;
+        }
+
+        /* Update card styles for equal alignment */
+        .card {
+           height: 500px;
+           width: 300px;
+           margin: 20px;
+           display: inline-block;
+           box-shadow: 1px 1px 22px rgba(157, 184, 209, 0.19);
+           border-radius: 10px;
+           cursor: pointer;
+           transition: 0.15s linear;
+           vertical-align: top; /* Align cards to the top */
+        }
+
+        /* Add a container for the cards */
+        .card-container {
+           text-align: center; /* Center the cards horizontally */
+        }
+
+        /* Optional: Add margin-bottom to create space between the cards */
+        .card:not(:last-child) {
+           margin-bottom: 20px;
+        }
+
+        /* Add this style to maintain hover animation */
+        .card:hover {
+            transform: scale(1.050);
+            transition: transform 0.15s linear; /* Add transition property for smooth scaling */
+            box-shadow: 1px 1px 22px rgba(157, 184, 209, 1);
+        }
+
+        /* Style for active navbar link */
+        .navbar-nav a.active {
+            color: #0BB5FF !important;
+        }
     </style>
 </head>
 <body>
+
+    <!-- JavaScript for changing navbar link color on click -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get all navbar links
+            const navbarLinks = document.querySelectorAll(".navbar-nav a");
+
+            // Add click event listener to each navbar link
+            navbarLinks.forEach(function (link) {
+                link.addEventListener("click", function () {
+                    // Remove the active class from all links
+                    navbarLinks.forEach(function (otherLink) {
+                        otherLink.classList.remove("active");
+                    });
+
+                    // Add the active class to the clicked link
+                    link.classList.add("active");
+                });
+            });
+        });
+    </script>
 
     <!-- Loader -->
     <div class="loader" id="loader">
@@ -192,14 +288,35 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="padding-top: 20px; padding-bottom: 20px; background-color: rgba(51, 51, 51, 0);">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
+                <!-- Navbar Toggler for Responsive Design -->
+                <style>
+                    .navbar-toggler:focus {
+                        box-shadow: 0 0 0px 2px lightskyblue;
+                    }
 
-            <!-- Navbar Toggler for Responsive Design -->
-            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon custom-toggler-icon"></span>
-            </button>
+                    .hamburger {
+                        width: 7vw; /* Size remains same and ensure it stays wherever I want it to stay. */
+                        height: auto;
+                        object-fit: contain;
+                    }
+
+                    @media (max-width: 768px) {
+                        .hamburger {
+                            width: 60px; /* Adjust the size for smaller screens */
+                        }
+                    }
+                </style>
+                <button class="navbar-toggler custom-toggler ms-auto" id="hamburgerButton" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <img src="{% static 'images/hamburger.gif' %}" alt="Hamburger" class="hamburger">
+                </button>
 
             <!-- Navbar Links -->
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <style>
+                .navbar-nav {
+                    text-align: right;
+                }
+            </style>
+            <div class="collapse navbar-collapse ms-auto" id="navbarNav">
                 <!-- Don't Remove For Future Use -->
 {#                {% if user.is_authenticated %}#}
 {#                    <a class="btn btn-primary" href="{% url 'PayZone:dashboard' %}" style="background-color: lightgrey; border: 2px solid lightgrey;">Dashboard</a>#}
@@ -215,12 +332,9 @@
                         <a class="nav-link" href="#contact-us">Contact Us</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="btn btn-primary" href="{% url 'login' %}">Log In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-primary" href="{% url 'register' %}">Sign Up</a>
                     </li>
                 </ul>
             </div>
@@ -405,20 +519,35 @@
 
     <!-- Features Section -->
     <section id="features" class="content">
-        <h2 class="headers">Features</h2>
+        <h2 class="headers">PayZone Features</h2>
         <div class="description">
-        <p>Our platform offers a range of features designed to simplify payroll management, including automated salary calculations, tax reporting, and direct deposit options. With Payroll, you can focus on growing your business while we take care of your payroll needs.</p>
+            <p>Our platform offers a range of features designed to simplify payroll management, including automated salary calculations, tax reporting, and direct deposit options. With Payroll, you can focus on growing your business while we take care of your payroll needs.</p>
+        </div>
+
+        <!-- Card Container -->
+        <div class="card-container">
+            <!-- Card 1 -->
+            <div class="card">
+                <img src="{% static 'images/highlysecuresystem.png' %}" alt="Highly Secure System">
+                <h1>Highly Secure System</h1>
+                <p>PayZone ensures the utmost protection of sensitive financial data and employee information through its highly secured system, employing state-of-the-art encryption, user authentication, anti-bypass, and continuous monitoring to guarantee a robust and safe payroll processing experience.</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+                <img src="{% static 'images/powerfulfeatures.png' %}" alt="Powerful Features">
+                <h1>Powerful Features</h1>
+                <p>Experience the efficiency of PayZone's powerful features, including a seamlessly synced dashboard for real-time insights, comprehensive lists of departments and employees for easy management, streamlined payroll processing, and detailed reports to provide comprehensive analytics for informed decision-making.</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card">
+                <img src="{% static 'images/userfriendlyinterface.png' %}" alt="User Friendly Interface">
+                <h1>User Friendly Interface</h1>
+                <p>PayZone stands out with its user-friendly interface, ensuring a smooth and intuitive experience for users at every level. With a simple and navigable design, managing payroll, departments, and employee information has never been more accessible and user-friendly.</p>
+            </div>
         </div>
     </section>
-
-    <div style="text-align: center;">
-        <img src="{% static "images/features.png" %}" style="margin-center: 0px;" width="400" height="400">
-        <p style="color: #ffffff; text-align: center; margin-center: 0px; text-decoration: none; font-size: 50px; font-weight: lighter;
-           font-family: 'MinecraftiaRegular', sans-serif;">
-           <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/asd" type="text/css"/><br>
-           PayZone Features
-        </p>
-    </div>
 
     <!-- Contact Us Section -->
     <section id="contact-us" class="content">

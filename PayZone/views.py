@@ -76,14 +76,14 @@ def department_list(request):
 
 def create_department(request):
     if request.method == 'POST':
-        department_form = DepartmentForm(request.POST)
-        if department_form.is_valid():
-            department_form.save()
+        form = DepartmentForm(request.POST)
+        if form.is_valid():
+            form.save()
             return redirect('PayZone:department_list')
     else:
-        department_form = DepartmentForm()
+        form = DepartmentForm()
 
-    return render(request, 'main_page/departments.html', {'department_form': department_form})
+    return render(request, 'main_page/departments.html', {'form': form})
 
 
 def update_department(request, department_id):
